@@ -31,3 +31,12 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Secrets ###
+src/main/resources/application.secrets.properties
+
+### Upload ###
+src/main/resources/upload/
+
+### Logs ###
+src/main/resources/logs/
