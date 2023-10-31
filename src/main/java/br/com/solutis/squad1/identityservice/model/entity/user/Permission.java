@@ -13,7 +13,12 @@ public enum Permission {
 
     PRODUCT_WRITE("product:write"),
     PRODUCT_DELETE("product:delete"),
-    PRODUCT_UPDATE("product:update");
+    PRODUCT_UPDATE("product:update"),
+
+    CATEGORY_READ("category:read"),
+    CATEGORY_WRITE("category:write"),
+    CATEGORY_DELETE("category:delete"),
+    CATEGORY_UPDATE("category:update");
 
 
     private final String permission;

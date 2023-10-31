@@ -15,46 +15,58 @@ import static br.com.solutis.squad1.identityservice.model.entity.user.Permission
 public enum Role {
     // Usuario que esta logado, mas não se autenticou novamente pelo o email, então não pode comprar
     USER(
-        USER_READ,
-        USER_WRITE,
-        USER_DELETE,
-        USER_UPDATE
+            USER_READ,
+            USER_WRITE,
+            USER_DELETE,
+            USER_UPDATE
     ),
     // Usuario que se autenticou pelo email, então pode comprar
     CLIENT(
-        USER_READ,
-        USER_WRITE,
-        USER_DELETE,
-        USER_UPDATE
+            USER_READ,
+            USER_WRITE,
+            USER_DELETE,
+            USER_UPDATE
     ),
     // Vendedor que esta logado, mas não se autenticou novamente pelo o email, então não pode comprar
     SELLER(
-        USER_READ,
-        USER_WRITE,
-        USER_DELETE,
-        USER_UPDATE,
-        PRODUCT_WRITE,
-        PRODUCT_DELETE,
-        PRODUCT_UPDATE
+            USER_READ,
+            USER_WRITE,
+            USER_DELETE,
+            USER_UPDATE,
+            PRODUCT_WRITE,
+            PRODUCT_DELETE,
+            PRODUCT_UPDATE,
+            CATEGORY_READ,
+            CATEGORY_WRITE,
+            CATEGORY_DELETE,
+            CATEGORY_UPDATE
     ),
     // Vendedor que se autenticou pelo email, então pode comprar
     SELLER_CLIENT(
-        USER_READ,
-        USER_WRITE,
-        USER_DELETE,
-        USER_UPDATE,
-        PRODUCT_WRITE,
-        PRODUCT_DELETE,
-        PRODUCT_UPDATE
+            USER_READ,
+            USER_WRITE,
+            USER_DELETE,
+            USER_UPDATE,
+            PRODUCT_WRITE,
+            PRODUCT_DELETE,
+            PRODUCT_UPDATE,
+            CATEGORY_READ,
+            CATEGORY_WRITE,
+            CATEGORY_DELETE,
+            CATEGORY_UPDATE
     ),
     ADMIN(
-        USER_READ,
-        USER_WRITE,
-        USER_DELETE,
-        USER_UPDATE,
-        PRODUCT_WRITE,
-        PRODUCT_DELETE,
-        PRODUCT_UPDATE
+            USER_READ,
+            USER_WRITE,
+            USER_DELETE,
+            USER_UPDATE,
+            PRODUCT_WRITE,
+            PRODUCT_DELETE,
+            PRODUCT_UPDATE,
+            CATEGORY_READ,
+            CATEGORY_WRITE,
+            CATEGORY_DELETE,
+            CATEGORY_UPDATE
     );
 
     private final Set<Permission> permissions;

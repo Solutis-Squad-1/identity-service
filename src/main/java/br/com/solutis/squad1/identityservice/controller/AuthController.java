@@ -4,6 +4,7 @@ import br.com.solutis.squad1.identityservice.dto.TokenDto;
 import br.com.solutis.squad1.identityservice.dto.user.UserLoginDto;
 import br.com.solutis.squad1.identityservice.dto.user.UserRegisterDto;
 import br.com.solutis.squad1.identityservice.dto.user.UserResponseDto;
+import br.com.solutis.squad1.identityservice.exception.UnauthorizedException;
 import br.com.solutis.squad1.identityservice.model.entity.user.User;
 import br.com.solutis.squad1.identityservice.service.TokenService;
 import br.com.solutis.squad1.identityservice.service.UserService;
@@ -34,7 +35,7 @@ public class AuthController {
         Authentication authentication = authenticationManager.authenticate(authenticationToken);
 
         if (!authentication.isAuthenticated()) {
-            throw new RuntimeException("Invalid credentials");
+            throw new UnauthorizedException("Invalid credentials");
         }
 
         String tokenJwt = tokenService.generateToken((User) authentication.getPrincipal());
