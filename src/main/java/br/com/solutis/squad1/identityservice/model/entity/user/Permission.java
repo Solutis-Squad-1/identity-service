@@ -7,19 +7,19 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum Permission {
     USER_READ("user:read"),
-    USER_WRITE("user:write"),
     USER_DELETE("user:delete"),
     USER_UPDATE("user:update"),
 
-    PRODUCT_WRITE("product:write"),
+    PRODUCT_CREATE("product:create"),
+    PRODUCT_CREATE_IMAGE("product:create:image"),
     PRODUCT_DELETE("product:delete"),
+    PRODUCT_DELETE_IMAGE("product:delete:image"),
     PRODUCT_UPDATE("product:update"),
 
     CATEGORY_READ("category:read"),
-    CATEGORY_WRITE("category:write"),
+    CATEGORY_CREATE("category:create"),
     CATEGORY_DELETE("category:delete"),
     CATEGORY_UPDATE("category:update");
-
 
     private final String permission;
 }
