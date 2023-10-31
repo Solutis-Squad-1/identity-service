@@ -33,6 +33,9 @@ public class User implements UserDetails {
     private Role role;
 
     @Column(nullable = false)
+    private Boolean confirmed = false;
+
+    @Column(nullable = false)
     private Boolean deleted = false;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -98,6 +101,8 @@ public class User implements UserDetails {
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
+                ", role=" + role +
+                ", confirmed=" + confirmed +
                 ", deleted=" + deleted +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +

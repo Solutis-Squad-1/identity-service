@@ -1,7 +1,7 @@
 package br.com.solutis.squad1.identityservice.filter;
 
 import br.com.solutis.squad1.identityservice.model.repository.UserRepository;
-import br.com.solutis.squad1.identityservice.service.TokenService;
+import br.com.solutis.squad1.identityservice.service.AuthService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,7 +18,7 @@ import java.io.IOException;
 @Component
 @RequiredArgsConstructor
 public class SecurityFilter extends OncePerRequestFilter {
-    private final TokenService tokenService;
+    private final AuthService authService;
     private final UserRepository userRepository;
 
     @Override
@@ -26,7 +26,7 @@ public class SecurityFilter extends OncePerRequestFilter {
         String token = getToken(request);
 
         if (token != null) {
-            String username = tokenService.verifyToken(token);
+            String username = authService.verifyToken(token);
             UserDetails user = userRepository.findByUsername(username);
 
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
