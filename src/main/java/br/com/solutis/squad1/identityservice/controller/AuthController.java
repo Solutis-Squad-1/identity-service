@@ -17,7 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/auth")
+@RequestMapping("/api/v1/identity/auth")
 @RequiredArgsConstructor
 public class AuthController {
     private final AuthenticationManager authenticationManager;
