@@ -2,14 +2,19 @@ package br.com.solutis.squad1.identityservice.service;
 
 import br.com.solutis.squad1.identityservice.dto.user.UserPutDto;
 import br.com.solutis.squad1.identityservice.dto.user.UserRegisterDto;
+import br.com.solutis.squad1.identityservice.dto.user.UserResponseDetailedDto;
 import br.com.solutis.squad1.identityservice.dto.user.UserResponseDto;
 import br.com.solutis.squad1.identityservice.exception.BadRequestException;
+import br.com.solutis.squad1.identityservice.mapper.AddressMapper;
 import br.com.solutis.squad1.identityservice.mapper.UserMapper;
+import br.com.solutis.squad1.identityservice.model.entity.Address;
 import br.com.solutis.squad1.identityservice.model.entity.user.Role;
 import br.com.solutis.squad1.identityservice.model.entity.user.User;
+import br.com.solutis.squad1.identityservice.model.repository.AddressRepository;
 import br.com.solutis.squad1.identityservice.model.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -18,20 +23,27 @@ import java.util.List;
 @Service
 @Transactional
 @RequiredArgsConstructor
+@Slf4j
 public class UserService {
     private final UserRepository userRepository;
+    private final AddressRepository addressRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
+    private final AddressMapper addressMapper;
 
     public List<UserResponseDto> findAll() {
+        log.info("Finding all users");
         return userMapper.toResponseDto(userRepository.findAllByDeletedFalse());
     }
 
-    public UserResponseDto findByName(String name) {
-        return userMapper.toResponseDto(userRepository.findUserByUsername(name));
+    public UserResponseDetailedDto findByName(String name) {
+        log.info("Finding user by name {}", name);
+        User user = userRepository.findWithAddressByUsernameAndDeletedFalse(name);
+        return userMapper.toResponseDetailedDto(user);
     }
 
     public UserResponseDto save(UserRegisterDto userRegisterDto) {
+        log.info("Saving user {}", userRegisterDto.username());
         User user = userRepository.findUserByUsername(userRegisterDto.username());
 
         if (user != null) {
@@ -45,19 +57,28 @@ public class UserService {
         return userMapper.toResponseDto(userRepository.save(user));
     }
 
-    public UserResponseDto updateByName(String name, UserPutDto userPutDto) {
-        User user = userRepository.getReferenceById(userRepository.findUserByUsername(name).getId());
+    public UserResponseDetailedDto updateByName(String name, UserPutDto userPutDto) {
+        log.info("Updating user {}", name);
+        User user = userRepository.getReferenceById(userRepository.findWithAddressByUsernameAndDeletedFalse(name).getId());
+
+        if (user.getAddress() == null && userPutDto.address() != null) {
+            Address address = addressRepository.save(addressMapper.putDtoToEntity(userPutDto.address()));
+            user.setAddress(address);
+        }
+
         user.update(userMapper.putDtoToEntity(userPutDto));
-        return userMapper.toResponseDto(userRepository.save(user));
+        return userMapper.toResponseDetailedDto(userRepository.save(user));
     }
 
     public void updateConfirmedByName(String username, boolean confirmed) {
-        User user = userRepository.getReferenceById(userRepository.findUserByUsername(username).getId());
+        log.info("Updating user {} confirmed status to {}", username, confirmed);
+        User user = userRepository.getReferenceById(userRepository.findUserByUsernameAndDeletedFalse(username).getId());
         user.setConfirmed(confirmed);
     }
 
     public void demoteRoleByName(String username) {
-        User user = userRepository.getReferenceById(userRepository.findUserByUsername(username).getId());
+        log.info("Demoting user {} role", username);
+        User user = userRepository.getReferenceById(userRepository.findUserByUsernameAndDeletedFalse(username).getId());
         if (user.getRole() == Role.CLIENT) {
             user.setRole(Role.USER);
         } else if (user.getRole() == Role.SELLER_CLIENT) {
@@ -66,7 +87,8 @@ public class UserService {
     }
 
     public void promoteRoleByName(String username) {
-        User user = userRepository.getReferenceById(userRepository.findUserByUsername(username).getId());
+        log.info("Promoting user {} role", username);
+        User user = userRepository.getReferenceById(userRepository.findUserByUsernameAndDeletedFalse(username).getId());
         if (user.getRole() == Role.USER) {
             user.setRole(Role.CLIENT);
         } else if (user.getRole() == Role.SELLER) {
@@ -75,7 +97,8 @@ public class UserService {
     }
 
     public void deleteByName(String name) {
-        User user = userRepository.getReferenceById(userRepository.findUserByUsername(name).getId());
+        log.info("Deleting user {}", name);
+        User user = userRepository.getReferenceById(userRepository.findUserByUsernameAndDeletedFalse(name).getId());
         user.delete();
     }
 }

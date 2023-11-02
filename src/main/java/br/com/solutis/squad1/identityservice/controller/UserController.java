@@ -1,6 +1,7 @@
 package br.com.solutis.squad1.identityservice.controller;
 
 import br.com.solutis.squad1.identityservice.dto.user.UserPutDto;
+import br.com.solutis.squad1.identityservice.dto.user.UserResponseDetailedDto;
 import br.com.solutis.squad1.identityservice.dto.user.UserResponseDto;
 import br.com.solutis.squad1.identityservice.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -24,13 +25,13 @@ public class UserController {
 
     @GetMapping("/details")
     @PreAuthorize("hasAuthority('user:read')")
-    public UserResponseDto findById(Principal principal) {
+    public UserResponseDetailedDto findById(Principal principal) {
         return userService.findByName(principal.getName());
     }
 
     @PutMapping
     @PreAuthorize("hasAuthority('user:update')")
-    public UserResponseDto update(Principal principal, @RequestBody UserPutDto userPutDto) {
+    public UserResponseDetailedDto update(Principal principal, @RequestBody UserPutDto userPutDto) {
         return userService.updateByName(principal.getName(), userPutDto);
     }
 
@@ -41,5 +42,4 @@ public class UserController {
     }
 
     // TODO Endpoint para atualizar a senha
-    // TODO Endpoint para adicionar um endereco ao usuario
 }

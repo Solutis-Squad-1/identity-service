@@ -1,5 +1,6 @@
 package br.com.solutis.squad1.identityservice.model.entity.user;
 
+import br.com.solutis.squad1.identityservice.model.entity.Address;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -32,6 +33,10 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "address_id")
+    private Address address;
+
     @Column(nullable = false)
     private Boolean confirmed = false;
 
@@ -51,20 +56,22 @@ public class User implements UserDetails {
     private LocalDateTime deletedAt;
 
     @PrePersist
-    protected void onCreate() {
+    private void onCreate() {
         createdAt = LocalDateTime.now();
     }
 
     @PreUpdate
-    protected void onUpdate() {
+    private void onUpdate() {
         updatedAt = LocalDateTime.now();
     }
 
     public void update(User user) {
         if (user.getEmail() != null) setEmail(user.getEmail());
+        if (user.address != null) address.update(user.address);
     }
 
     public void delete() {
+        address.delete();
         deleted = true;
         deletedAt = LocalDateTime.now();
     }

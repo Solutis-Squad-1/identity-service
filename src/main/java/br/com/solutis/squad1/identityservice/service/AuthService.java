@@ -9,6 +9,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,6 +22,7 @@ import java.time.ZoneOffset;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AuthService {
     private final AuthenticationManager authenticationManager;
 
@@ -31,6 +33,7 @@ public class AuthService {
     private String provider;
 
     public TokenDto login(UserLoginDto userLoginDTO) {
+        log.info("Authenticating user {}", userLoginDTO.username());
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                 userLoginDTO.username(),
                 userLoginDTO.password()
@@ -46,6 +49,7 @@ public class AuthService {
     }
 
     public String verifyToken(String token) {
+        log.info("Verifying token {}", token);
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             return JWT.require(algorithm)
@@ -59,6 +63,7 @@ public class AuthService {
     }
 
     private String generateToken(User user) {
+        log.info("Generating token for user {}", user.getUsername());
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             return JWT.create()
@@ -75,6 +80,7 @@ public class AuthService {
     }
 
     private Instant generateExpiresAt() {
+        log.info("Generating expiration date");
         return LocalDateTime.now().plusHours(168).toInstant(ZoneOffset.UTC);
     }
 }
