@@ -1,6 +1,7 @@
 package br.com.solutis.squad1.identityservice.producer;
 
-import br.com.solutis.squad1.identityservice.dto.NotificationOtpMessageDto;
+import br.com.solutis.squad1.identityservice.dto.EmailDto;
+import br.com.solutis.squad1.identityservice.dto.user.UserResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class NotificationProducer {
+public class EmailNotificationProducer {
     private final RabbitTemplate rabbitTemplate;
 
     @Value("${api.url}")
@@ -25,16 +26,30 @@ public class NotificationProducer {
     @Value("${spring.rabbitmq.exchange.notification}")
     private String notificationExchange;
 
-    public void sendOtp(String otp, String email) {
-        log.info("Sending OTP: {}", otp);
+    @Value("${api.email}")
+    private String apiEmail;
 
+    public void sendOtp(UserResponseDto userResponseDto, String otp) {
+        log.info("Sending OTP: {} to {}", otp, userResponseDto.email());
+
+        String subject = getSubject();
         String message = getMessage(otp);
 
         rabbitTemplate.convertAndSend(
                 notificationExchange,
                 notificationRoutingKey,
-                new NotificationOtpMessageDto(message, email)
+                new EmailDto(
+                        userResponseDto.username(),
+                        apiEmail,
+                        userResponseDto.email(),
+                        subject,
+                        message
+                )
         );
+    }
+
+    private String getSubject() {
+        return "Verify your account!";
     }
 
     private String getMessage(String otp) {

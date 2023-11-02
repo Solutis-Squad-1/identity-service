@@ -4,7 +4,7 @@ import br.com.solutis.squad1.identityservice.dto.TokenDto;
 import br.com.solutis.squad1.identityservice.dto.user.UserLoginDto;
 import br.com.solutis.squad1.identityservice.dto.user.UserRegisterDto;
 import br.com.solutis.squad1.identityservice.dto.user.UserResponseDto;
-import br.com.solutis.squad1.identityservice.producer.NotificationProducer;
+import br.com.solutis.squad1.identityservice.producer.EmailNotificationProducer;
 import br.com.solutis.squad1.identityservice.service.AuthService;
 import br.com.solutis.squad1.identityservice.service.OtpService;
 import br.com.solutis.squad1.identityservice.service.UserService;
@@ -23,7 +23,7 @@ public class AuthController {
     private final AuthService authService;
     private final UserService userService;
     private final OtpService otpService;
-    private final NotificationProducer notificationProducer;
+    private final EmailNotificationProducer emailNotificationProducer;
 
     @PostMapping("/login")
     public TokenDto authenticate(
@@ -35,7 +35,7 @@ public class AuthController {
         UserResponseDto userResponseDto = userService.demoteRoleByName(userLoginDTO.username());
 
         String code = otpService.create(userResponseDto);
-        notificationProducer.sendOtp(code, userResponseDto.email());
+        emailNotificationProducer.sendOtp(userResponseDto, code);
 
         return token;
     }

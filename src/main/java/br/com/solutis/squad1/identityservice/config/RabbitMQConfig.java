@@ -1,6 +1,7 @@
 package br.com.solutis.squad1.identityservice.config;
 
-import org.springframework.amqp.core.*;
+import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.QueueBuilder;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -16,25 +17,11 @@ public class RabbitMQConfig {
     @Value("${spring.rabbitmq.queue.notification}")
     private String notificationQueueName;
 
-    @Value("${spring.rabbitmq.exchange.notification}")
-    private String notificationExchangeName;
-
     @Bean
     public Queue notificationQueue() {
         return QueueBuilder
                 .durable(notificationQueueName)
                 .build();
-    }
-
-    @Bean
-    public FanoutExchange notificationFanoutExchange() {
-        return new FanoutExchange(notificationExchangeName);
-    }
-
-    @Bean
-    public Binding notificationBinding() {
-        return BindingBuilder.bind(notificationQueue())
-                .to(notificationFanoutExchange());
     }
 
     @Bean
