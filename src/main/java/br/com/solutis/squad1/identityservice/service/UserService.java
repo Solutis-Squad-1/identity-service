@@ -70,13 +70,15 @@ public class UserService {
         return userMapper.toResponseDetailedDto(userRepository.save(user));
     }
 
-    public void updateConfirmedByName(String username, boolean confirmed) {
+    public UserResponseDto updateConfirmedByName(String username, boolean confirmed) {
         log.info("Updating user {} confirmed status to {}", username, confirmed);
         User user = userRepository.getReferenceById(userRepository.findUserByUsernameAndDeletedFalse(username).getId());
         user.setConfirmed(confirmed);
+
+        return userMapper.toResponseDto(user);
     }
 
-    public void demoteRoleByName(String username) {
+    public UserResponseDto demoteRoleByName(String username) {
         log.info("Demoting user {} role", username);
         User user = userRepository.getReferenceById(userRepository.findUserByUsernameAndDeletedFalse(username).getId());
         if (user.getRole() == Role.CLIENT) {
@@ -84,9 +86,11 @@ public class UserService {
         } else if (user.getRole() == Role.SELLER_CLIENT) {
             user.setRole(Role.SELLER);
         }
+
+        return userMapper.toResponseDto(user);
     }
 
-    public void promoteRoleByName(String username) {
+    public UserResponseDto promoteRoleByName(String username) {
         log.info("Promoting user {} role", username);
         User user = userRepository.getReferenceById(userRepository.findUserByUsernameAndDeletedFalse(username).getId());
         if (user.getRole() == Role.USER) {
@@ -94,6 +98,8 @@ public class UserService {
         } else if (user.getRole() == Role.SELLER) {
             user.setRole(Role.SELLER_CLIENT);
         }
+
+        return userMapper.toResponseDto(user);
     }
 
     public void deleteByName(String name) {
