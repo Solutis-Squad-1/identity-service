@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 
 public record EmailDto(
         @NotBlank
-        String ownerName,
+        String owner,
         @NotBlank
         @Email
         String emailFrom,
