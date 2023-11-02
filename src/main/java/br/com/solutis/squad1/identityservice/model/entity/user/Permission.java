@@ -16,7 +16,6 @@ public enum Permission {
     PRODUCT_DELETE_IMAGE("product:delete:image"),
     PRODUCT_UPDATE("product:update"),
 
-    CATEGORY_READ("category:read"),
     CATEGORY_CREATE("category:create"),
     CATEGORY_DELETE("category:delete"),
     CATEGORY_UPDATE("category:update");

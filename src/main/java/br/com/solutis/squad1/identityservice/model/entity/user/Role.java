@@ -35,7 +35,6 @@ public enum Role {
             PRODUCT_UPDATE,
             PRODUCT_CREATE_IMAGE,
             PRODUCT_DELETE_IMAGE,
-            CATEGORY_READ,
             CATEGORY_CREATE,
             CATEGORY_DELETE,
             CATEGORY_UPDATE
@@ -50,7 +49,6 @@ public enum Role {
             PRODUCT_UPDATE,
             PRODUCT_CREATE_IMAGE,
             PRODUCT_DELETE_IMAGE,
-            CATEGORY_READ,
             CATEGORY_CREATE,
             CATEGORY_DELETE,
             CATEGORY_UPDATE
@@ -64,7 +62,6 @@ public enum Role {
             PRODUCT_UPDATE,
             PRODUCT_CREATE_IMAGE,
             PRODUCT_DELETE_IMAGE,
-            CATEGORY_READ,
             CATEGORY_CREATE,
             CATEGORY_DELETE,
             CATEGORY_UPDATE
