@@ -64,7 +64,10 @@ public enum Role {
             PRODUCT_DELETE_IMAGE,
             CATEGORY_CREATE,
             CATEGORY_DELETE,
-            CATEGORY_UPDATE
+            CATEGORY_UPDATE,
+            EMAIL_READ,
+            EMAIL_SEND,
+            EMAIL_DELETE
     );
 
     private final Set<Permission> permissions;

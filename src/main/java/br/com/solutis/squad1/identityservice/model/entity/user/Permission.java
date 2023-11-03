@@ -18,7 +18,11 @@ public enum Permission {
 
     CATEGORY_CREATE("category:create"),
     CATEGORY_DELETE("category:delete"),
-    CATEGORY_UPDATE("category:update");
+    CATEGORY_UPDATE("category:update"),
+
+    EMAIL_READ("email:read"),
+    EMAIL_SEND("email:send"),
+    EMAIL_DELETE("email:delete");
 
     private final String permission;
 }
