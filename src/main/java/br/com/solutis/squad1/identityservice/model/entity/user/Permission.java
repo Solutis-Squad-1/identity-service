@@ -27,8 +27,11 @@ public enum Permission {
     PAYMENT_UPDATE_STATUS("payment:update:status"),
     PAYMENT_CREATE("payment:create"),
     PAYMENT_CREATE_CREDIT_CARD("payment:create:credit-card"),
-    PAYMENT_DELETE("payment:delete");
+    PAYMENT_DELETE("payment:delete"),
 
+    CART_CREATE("cart:create"),
+    CART_UPDATE_STATUS("cart:update:status"),
+    CART_DELETE("cart:delete");
 
     private final String permission;
 }
