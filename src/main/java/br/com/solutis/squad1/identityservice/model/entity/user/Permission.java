@@ -31,7 +31,12 @@ public enum Permission {
 
     CART_CREATE("cart:create"),
     CART_UPDATE_STATUS("cart:update:status"),
-    CART_DELETE("cart:delete");
+    CART_DELETE("cart:delete"),
+
+    ORDER_CREATE("order:create"),
+    ORDER_GET("order:get"),
+    ORDER_UPDATE("order:update"),
+    ORDER_DELETE("order:delete");
 
     private final String permission;
 }
