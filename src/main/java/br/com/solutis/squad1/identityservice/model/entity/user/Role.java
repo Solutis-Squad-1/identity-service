@@ -23,7 +23,10 @@ public enum Role {
     CLIENT(
             USER_READ,
             USER_DELETE,
-            USER_UPDATE
+            USER_UPDATE,
+            PAYMENT_CREATE,
+            PAYMENT_DELETE,
+            PAYMENT_CREATE_CREDIT_CARD
     ),
     // Vendedor que esta logado, mas não se autenticou novamente pelo o email, então não pode comprar
     SELLER(
@@ -51,7 +54,10 @@ public enum Role {
             PRODUCT_DELETE_IMAGE,
             CATEGORY_CREATE,
             CATEGORY_DELETE,
-            CATEGORY_UPDATE
+            CATEGORY_UPDATE,
+            PAYMENT_CREATE,
+            PAYMENT_DELETE,
+            PAYMENT_CREATE_CREDIT_CARD
     ),
     ADMIN(
             USER_READ,
@@ -67,7 +73,11 @@ public enum Role {
             CATEGORY_UPDATE,
             EMAIL_READ,
             EMAIL_SEND,
-            EMAIL_DELETE
+            EMAIL_DELETE,
+            PAYMENT_CREATE,
+            PAYMENT_DELETE,
+            PAYMENT_CREATE_CREDIT_CARD,
+            PAYMENT_UPDATE_STATUS
     );
 
     private final Set<Permission> permissions;

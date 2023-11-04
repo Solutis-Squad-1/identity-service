@@ -22,7 +22,13 @@ public enum Permission {
 
     EMAIL_READ("email:read"),
     EMAIL_SEND("email:send"),
-    EMAIL_DELETE("email:delete");
+    EMAIL_DELETE("email:delete"),
+
+    PAYMENT_UPDATE_STATUS("payment:update:status"),
+    PAYMENT_CREATE("payment:create"),
+    PAYMENT_CREATE_CREDIT_CARD("payment:create:credit-card"),
+    PAYMENT_DELETE("payment:delete");
+
 
     private final String permission;
 }
