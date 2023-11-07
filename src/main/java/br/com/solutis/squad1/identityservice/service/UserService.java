@@ -15,11 +15,10 @@ import br.com.solutis.squad1.identityservice.model.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @Transactional
@@ -32,9 +31,9 @@ public class UserService {
     private final UserMapper userMapper;
     private final AddressMapper addressMapper;
 
-    public List<UserResponseDto> findAll(Pageable pageable) {
+    public Page<UserResponseDto> findAll(Pageable pageable) {
         log.info("Finding all users");
-        return userMapper.toResponseDto(userRepository.findAllByDeletedFalse(pageable));
+        return userRepository.findAll(pageable).map(userMapper::toResponseDto);
     }
 
     public UserResponseDetailedDto findByName(String name) {
