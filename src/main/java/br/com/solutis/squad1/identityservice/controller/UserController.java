@@ -5,6 +5,7 @@ import br.com.solutis.squad1.identityservice.dto.user.UserResponseDetailedDto;
 import br.com.solutis.squad1.identityservice.dto.user.UserResponseDto;
 import br.com.solutis.squad1.identityservice.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,8 +20,8 @@ public class UserController {
 
     @GetMapping
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public List<UserResponseDto> findAll() {
-        return userService.findAll();
+    public List<UserResponseDto> findAll(Pageable pageable) {
+        return userService.findAll(pageable);
     }
 
     @GetMapping("/details")
