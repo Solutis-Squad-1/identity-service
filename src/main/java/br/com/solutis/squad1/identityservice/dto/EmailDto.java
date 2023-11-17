@@ -3,6 +3,9 @@ package br.com.solutis.squad1.identityservice.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
+/**
+ * DTO for email.
+ */
 public record EmailDto(
         @NotBlank
         String owner,
