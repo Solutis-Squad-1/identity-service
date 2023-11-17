@@ -58,13 +58,15 @@ public class AuthController {
 
     @GetMapping("/otp")
     @PreAuthorize("hasAuthority('user:update')")
-    public UserResponseDto otp(
+    public TokenDto otp(
             @RequestParam String code,
             Principal principal
     ) {
         otpService.verifyOtp(code, principal.getName());
 
         userService.updateConfirmedByName(principal.getName(), true);
-        return userService.promoteRoleByName(principal.getName());
+        userService.promoteRoleByName(principal.getName());
+
+        return authService.loginByUsername(principal.getName());
     }
 }

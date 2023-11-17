@@ -26,6 +26,8 @@ public enum Permission {
 
     PAYMENT_UPDATE_STATUS("payment:update:status"),
     PAYMENT_CREATE("payment:create"),
+    PAYMENT_UPDATE("payment:update"),
+    PAYMENT_READ("payment:read"),
     PAYMENT_CREATE_CREDIT_CARD("payment:create:credit-card"),
     PAYMENT_DELETE("payment:delete"),
 
@@ -34,7 +36,7 @@ public enum Permission {
     CART_DELETE("cart:delete"),
 
     ORDER_CREATE("order:create"),
-    ORDER_GET("order:get"),
+    ORDER_READ("order:read"),
     ORDER_UPDATE("order:update"),
     ORDER_DELETE("order:delete");
 

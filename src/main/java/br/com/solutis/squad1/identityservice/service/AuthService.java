@@ -4,6 +4,7 @@ import br.com.solutis.squad1.identityservice.dto.TokenDto;
 import br.com.solutis.squad1.identityservice.dto.user.UserLoginDto;
 import br.com.solutis.squad1.identityservice.exception.UnauthorizedException;
 import br.com.solutis.squad1.identityservice.model.entity.user.User;
+import br.com.solutis.squad1.identityservice.model.repository.UserRepository;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
@@ -16,6 +17,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -25,6 +27,7 @@ import java.time.ZoneOffset;
 @Slf4j
 public class AuthService {
     private final AuthenticationManager authenticationManager;
+    private final UserRepository userRepository;
 
     @Value("${api.security.token.jwt.secret}")
     private String secret;
@@ -69,8 +72,6 @@ public class AuthService {
             return JWT.create()
                     .withIssuer(provider)
                     .withSubject(user.getUsername())
-                    .withClaim("id", user.getId())
-                    .withClaim("role", user.getRole().toString())
                     .withClaim("authorities", user.getAuthorities().toString())
                     .withExpiresAt(generateExpiresAt())
                     .sign(algorithm);
@@ -82,5 +83,17 @@ public class AuthService {
     private Instant generateExpiresAt() {
         log.info("Generating expiration date");
         return LocalDateTime.now().plusHours(168).toInstant(ZoneOffset.UTC);
+    }
+
+    public TokenDto loginByUsername(String username) {
+        log.info("Authenticating user {}", username);
+
+        User user = userRepository.findUserByUsername(username);
+        if (user == null) {
+            throw new UnauthorizedException("Invalid credentials");
+        }
+
+        String tokenJwt = generateToken(user);
+        return new TokenDto(tokenJwt);
     }
 }

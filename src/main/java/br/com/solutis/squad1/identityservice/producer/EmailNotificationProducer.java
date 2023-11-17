@@ -14,12 +14,6 @@ import org.springframework.stereotype.Component;
 public class EmailNotificationProducer {
     private final RabbitTemplate rabbitTemplate;
 
-    @Value("${api.url}")
-    private String apiUrl;
-
-    @Value("${otp.url}")
-    private String otpUrl;
-
     @Value("${spring.rabbitmq.routing-key.notification}")
     private String notificationRoutingKey;
 
@@ -53,6 +47,6 @@ public class EmailNotificationProducer {
     }
 
     private String getMessage(String otp) {
-        return "Verify your account. Access the link: " + apiUrl + otpUrl + otp + ". This link will expire in 30 minutes.";
+        return "Verify your account. Your otp code is:" + otp + ". This code will expire in 30 minutes.";
     }
 }
