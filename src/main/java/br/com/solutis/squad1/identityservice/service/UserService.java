@@ -31,17 +31,32 @@ public class UserService {
     private final UserMapper userMapper;
     private final AddressMapper addressMapper;
 
+    /**
+     * Find all users
+     * @param pageable
+     * @return Page<UserResponseDto>
+     */
     public Page<UserResponseDto> findAll(Pageable pageable) {
         log.info("Finding all users");
         return userRepository.findAll(pageable).map(userMapper::toResponseDto);
     }
 
+    /**
+     * Find user by id
+     * @param id
+     * @return UserResponseDto
+     */
     public UserResponseDetailedDto findByName(String name) {
         log.info("Finding user by name {}", name);
         User user = userRepository.findWithAddressByUsernameAndDeletedFalse(name);
         return userMapper.toResponseDetailedDto(user);
     }
 
+    /**
+     * Save user
+     * @param userRegisterDto
+     * @return UserResponseDto
+     */
     public UserResponseDto save(UserRegisterDto userRegisterDto) {
         log.info("Saving user {}", userRegisterDto.username());
         User user = userRepository.findUserByUsername(userRegisterDto.username());
@@ -57,6 +72,11 @@ public class UserService {
         return userMapper.toResponseDto(userRepository.save(user));
     }
 
+    /**
+     * Update user
+     * @param userPutDto
+     * @return UserResponseDetailedDto
+     */
     public UserResponseDetailedDto updateByName(String name, UserPutDto userPutDto) {
         log.info("Updating user {}", name);
         User user = userRepository.getReferenceById(userRepository.findWithAddressByUsernameAndDeletedFalse(name).getId());
@@ -70,6 +90,12 @@ public class UserService {
         return userMapper.toResponseDetailedDto(userRepository.save(user));
     }
 
+    /**
+     * Update user confirmed status
+     * @param username
+     * @param confirmed
+     * @return UserResponseDto
+     */
     public UserResponseDto updateConfirmedByName(String username, boolean confirmed) {
         log.info("Updating user {} confirmed status to {}", username, confirmed);
         User user = userRepository.getReferenceById(userRepository.findUserByUsernameAndDeletedFalse(username).getId());
@@ -78,6 +104,12 @@ public class UserService {
         return userMapper.toResponseDto(user);
     }
 
+    /**
+     * Update user enabled status
+     * @param username
+     * @param enabled
+     * @return UserResponseDto
+     */
     public UserResponseDto demoteRoleByName(String username) {
         log.info("Demoting user {} role", username);
         User user = userRepository.getReferenceById(userRepository.findUserByUsernameAndDeletedFalse(username).getId());
@@ -90,6 +122,12 @@ public class UserService {
         return userMapper.toResponseDto(user);
     }
 
+    /**
+     * Update user enabled status
+     * @param username
+     * @param enabled
+     * @return UserResponseDto
+     */
     public UserResponseDto promoteRoleByName(String username) {
         log.info("Promoting user {} role", username);
         User user = userRepository.getReferenceById(userRepository.findUserByUsernameAndDeletedFalse(username).getId());
@@ -102,6 +140,10 @@ public class UserService {
         return userMapper.toResponseDto(user);
     }
 
+    /**
+     * Delete user by id
+     * @param id
+     */
     public void deleteByName(String name) {
         log.info("Deleting user {}", name);
         User user = userRepository.getReferenceById(userRepository.findUserByUsernameAndDeletedFalse(name).getId());

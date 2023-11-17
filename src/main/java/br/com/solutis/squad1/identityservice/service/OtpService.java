@@ -21,6 +21,11 @@ public class OtpService {
     private final OtpRepository otpRepository;
     private final OtpMapper otpMapper;
 
+    /**
+     * Create OTP for user
+     * @param userResponseDto
+     * @return String
+     */
     public String create(UserResponseDto userResponseDto) {
         log.info("Creating OTP for user {}", userResponseDto);
 
@@ -33,10 +38,19 @@ public class OtpService {
         return otpCode;
     }
 
+    /**
+     * Generate random 6 digits code
+     * @return String
+     */
     private String generateOtpCode() {
         return new DecimalFormat("000000").format(Math.random() * 999999);
     }
 
+    /**
+     * Verify OTP
+     * @param code
+     * @param username
+     */
     public void verifyOtp(String code, String username) {
         log.info("Verifying OTP {} for user {}", code, username);
 

@@ -35,6 +35,11 @@ public class AuthService {
     @Value("${api.security.provider}")
     private String provider;
 
+    /**
+     * If user is valid, generate token and login
+     * @param userLoginDTO
+     * @return TokenDto
+     */
     public TokenDto login(UserLoginDto userLoginDTO) {
         log.info("Authenticating user {}", userLoginDTO.username());
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
@@ -51,6 +56,11 @@ public class AuthService {
         return new TokenDto(tokenJwt);
     }
 
+    /**
+     * Verify token. If valid, return the token. If not, throw UnauthorizedException
+     * @param token
+     * @return String
+     */
     public String verifyToken(String token) {
         log.info("Verifying token {}", token);
         try {
@@ -65,6 +75,11 @@ public class AuthService {
         }
     }
 
+    /**
+     * Generate token for user
+     * @param user
+     * @return String
+     */
     private String generateToken(User user) {
         log.info("Generating token for user {}", user.getUsername());
         try {
@@ -80,11 +95,20 @@ public class AuthService {
         }
     }
 
+    /**
+     * Generate expiration date for token
+     * @return Instant
+     */
     private Instant generateExpiresAt() {
         log.info("Generating expiration date");
         return LocalDateTime.now().plusHours(168).toInstant(ZoneOffset.UTC);
     }
 
+    /**
+     * Login user by username
+     * @param username
+     * @return TokenDto
+     */
     public TokenDto loginByUsername(String username) {
         log.info("Authenticating user {}", username);
 

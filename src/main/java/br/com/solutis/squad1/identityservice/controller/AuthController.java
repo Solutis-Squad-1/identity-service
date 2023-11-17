@@ -25,8 +25,13 @@ public class AuthController {
     private final OtpService otpService;
     private final EmailNotificationProducer emailNotificationProducer;
 
+    /**
+     * Login user, demote role and send email with otp
+     * @param userLoginDTO
+     * @return TokenDto
+     */
     @PostMapping("/login")
-    public TokenDto authenticate(
+    public TokenDto login(
             @RequestBody @Valid UserLoginDto userLoginDTO
     ) {
         TokenDto token = authService.login(userLoginDTO);
@@ -40,6 +45,11 @@ public class AuthController {
         return token;
     }
 
+    /**
+     * Register user
+     * @param userRegisterDTO
+     * @return UserResponseDto
+     */
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
     public UserResponseDto register(
@@ -48,6 +58,11 @@ public class AuthController {
         return userService.save(userRegisterDTO);
     }
 
+    /**
+     * Validate token. Return same token if valid, return 401 if invalid
+     * @param tokenDTO
+     * @return TokenDto
+     */
     @PostMapping("/validate")
     public TokenDto validate(
             @RequestBody @Valid TokenDto tokenDTO
@@ -56,6 +71,12 @@ public class AuthController {
         return tokenDTO;
     }
 
+    /**
+     * Verify otp, update user, promote role and return new token
+     * @param code
+     * @param principal
+     * @return TokenDto
+     */
     @GetMapping("/otp")
     @PreAuthorize("hasAuthority('user:update')")
     public TokenDto otp(

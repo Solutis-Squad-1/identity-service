@@ -18,24 +18,42 @@ import java.security.Principal;
 public class UserController {
     private final UserService userService;
 
+    /**
+     * Find all users
+     * @param pageable
+     * @return Page<UserResponseDto>
+     */
     @GetMapping
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public Page<UserResponseDto> findAll(Pageable pageable) {
         return userService.findAll(pageable);
     }
 
+    /**
+     * Find user by id
+     * @param id
+     * @return UserResponseDto
+     */
     @GetMapping("/details")
     @PreAuthorize("hasAuthority('user:read')")
     public UserResponseDetailedDto findById(Principal principal) {
         return userService.findByName(principal.getName());
     }
 
+    /**
+     * Update user
+     * @param userPutDto
+     * @return UserResponseDetailedDto
+     */
     @PutMapping
     @PreAuthorize("hasAuthority('user:update')")
     public UserResponseDetailedDto update(Principal principal, @RequestBody UserPutDto userPutDto) {
         return userService.updateByName(principal.getName(), userPutDto);
     }
 
+    /**
+     * Delete user
+     */
     @DeleteMapping
     @PreAuthorize("hasAuthority('user:delete')")
     public void delete(Principal principal) {

@@ -13,6 +13,11 @@ import org.springframework.stereotype.Service;
 public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
     private final UserRepository userRepository;
 
+    /**
+     * Find user by username
+     * @param username
+     * @return UserDetails
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         log.info("Finding user by username {}", username);
