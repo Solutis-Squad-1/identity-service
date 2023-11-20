@@ -21,7 +21,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
-    private static final String[] SWAGGER_AUTH_WHITELIST = {
+    private static final String[] AUTH_WHITELIST = {
             // -- Swagger UI v2
             "/v2/api-docs",
             "/swagger-resources",
@@ -32,8 +32,11 @@ public class SecurityConfig {
             "/webjars/**",
             // -- Swagger UI v3 (OpenAPI)
             "/v3/api-docs/**",
-            "/swagger-ui/**"
-            , "/docs/**"
+            "/swagger-ui/**",
+            "/docs/**",
+            // -- Actuator
+            "/actuator",
+            "/actuator/**"
     };
 
     @Bean
@@ -45,7 +48,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         authorizeRequests -> authorizeRequests
                                 .requestMatchers(HttpMethod.POST, "/api/v1/identity/auth/**").permitAll()
-                                .requestMatchers(SWAGGER_AUTH_WHITELIST).permitAll()
+                                .requestMatchers(AUTH_WHITELIST).permitAll()
                                 .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
