@@ -29,6 +29,7 @@ public enum Permission {
     PAYMENT_CREATE_CREDIT_CARD("payment:create:credit-card"),
     PAYMENT_DELETE("payment:delete"),
 
+    CART_READ("cart:read"),
     CART_CREATE("cart:create"),
     CART_UPDATE_STATUS("cart:update:status"),
     CART_DELETE("cart:delete"),
