@@ -4,6 +4,7 @@ import br.com.solutis.squad1.identityservice.dto.user.UserPutDto;
 import br.com.solutis.squad1.identityservice.dto.user.UserResponseDetailedDto;
 import br.com.solutis.squad1.identityservice.dto.user.UserResponseDto;
 import br.com.solutis.squad1.identityservice.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,6 +24,7 @@ public class UserController {
      * @param pageable
      * @return Page<UserResponseDto>
      */
+    @Operation(summary = "Find all users")
     @GetMapping
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public Page<UserResponseDto> findAll(Pageable pageable) {
@@ -34,6 +36,7 @@ public class UserController {
      * @param id
      * @return UserResponseDto
      */
+    @Operation(summary = "Find user by id")
     @GetMapping("/details")
     @PreAuthorize("hasAuthority('user:read')")
     public UserResponseDetailedDto findById(Principal principal) {
@@ -45,6 +48,7 @@ public class UserController {
      * @param userPutDto
      * @return UserResponseDetailedDto
      */
+    @Operation(summary = "Update user")
     @PutMapping
     @PreAuthorize("hasAuthority('user:update')")
     public UserResponseDetailedDto update(Principal principal, @RequestBody UserPutDto userPutDto) {
@@ -54,11 +58,10 @@ public class UserController {
     /**
      * Delete user
      */
+    @Operation(summary = "Delete user")
     @DeleteMapping
     @PreAuthorize("hasAuthority('user:delete')")
     public void delete(Principal principal) {
         userService.deleteByName(principal.getName());
     }
-
-    // TODO Endpoint para atualizar a senha
 }

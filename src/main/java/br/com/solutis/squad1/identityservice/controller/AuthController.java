@@ -8,6 +8,8 @@ import br.com.solutis.squad1.identityservice.producer.EmailNotificationProducer;
 import br.com.solutis.squad1.identityservice.service.AuthService;
 import br.com.solutis.squad1.identityservice.service.OtpService;
 import br.com.solutis.squad1.identityservice.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -30,6 +32,7 @@ public class AuthController {
      * @param userLoginDTO
      * @return TokenDto
      */
+    @Operation(summary = "Login user and send email with otp")
     @PostMapping("/login")
     public TokenDto login(
             @RequestBody @Valid UserLoginDto userLoginDTO
@@ -50,6 +53,7 @@ public class AuthController {
      * @param userRegisterDTO
      * @return UserResponseDto
      */
+    @Operation(summary = "Register user")
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
     public UserResponseDto register(
@@ -63,6 +67,7 @@ public class AuthController {
      * @param tokenDTO
      * @return TokenDto
      */
+    @Operation(summary = "Validate token")
     @PostMapping("/validate")
     public TokenDto validate(
             @RequestBody @Valid TokenDto tokenDTO
@@ -77,6 +82,7 @@ public class AuthController {
      * @param principal
      * @return TokenDto
      */
+    @Operation(summary = "Verify otp and return new token")
     @GetMapping("/otp")
     @PreAuthorize("hasAuthority('user:update')")
     public TokenDto otp(
